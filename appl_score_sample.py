@@ -6,6 +6,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import  accuracy_score
 import matplotlib.pyplot as plt
+from sklearn.neighbors import KNeighborsClassifier
 
 warnings.filterwarnings('ignore')
 
@@ -26,7 +27,23 @@ lr.fit(x_train, y_train)
 
 prediction = lr.predict(x_test)
 
-print(accuracy_score(y_test, prediction))
+print(f'LogisticRegression: {accuracy_score(y_test, prediction)}')
+
+print(lr.coef_, lr.intercept_)
+
+
+for i in range(1, 10, 2):
+  
+    clf = KNeighborsClassifier(n_neighbors=i)
+    clf.fit(x_train, y_train)
+  
+    prediction_n = clf.predict(x_test)
+  
+    print(f'KNN (k= {i}): {accuracy_score(y_test, prediction_n)}')
+
+print('''На предоставленных в задании данных линейная модель работает более качественно, чем KNN.
+Возжно, проблема в недостаточном объеме обучающей выборки. 
+Кроме того, точность предсказания KNN возрастает при уменьшении k.''')
 
 
 # Задача 5
