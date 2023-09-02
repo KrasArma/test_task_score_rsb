@@ -1,10 +1,13 @@
 
-import pandas as pd
+import warnings
 import numpy as np
+import pandas as pd
 from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
-from sklearn.metrics import mean_squared_error
-from sklearn.preprocessing import PolynomialFeatures
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import  accuracy_score
+import matplotlib.pyplot as plt
+
+warnings.filterwarnings('ignore')
 
 
 # Задача 3
@@ -16,41 +19,14 @@ print(df.shape)
 x = df.drop('Target', axis=1)
 y = df['Target']
 
-x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.25)
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.25, random_state=123)
+lr = LogisticRegression()
 
+lr.fit(x_train, y_train)
 
-#Линейная регрессия
+prediction = lr.predict(x_test)
 
-model = LinearRegression()
-model.fit(x_train, y_train)
-
-prediction_l = model.predict(x_test)
-err_l = (mean_squared_error(y_test, prediction_l))**0.5
-
-print(f'Корень из квадратичной ошибки, линейная регрессия: {err_l}')
-
-
-#Линейная регрессия с полиномиальными признаками
-
-pf = PolynomialFeatures(degree=2)
-
-pf.fit(x_train)
-
-x_train_pf = pf.transform(x_train)
-x_test_pf = pf.transform(x_test)
-
-model.fit(x_train_pf, y_train)
-
-prediction_f = model.predict(x_test_pf)
-
-err_f = (mean_squared_error(y_test, prediction_f))**0.5
-
-print(f'Корень из квадратичной ошибки, линейная регрессия c полиномиальными признаками (степень 2): {err_f}')
-
-print('''В задании передан не достаточный для использования
-полиномиальных признаков объем данных (даже для полинома 2й степени).
-Использование полиномиальных признаков вызывает
-переобучение модели, квадратичная ошибка увеличивается.''')
+print(accuracy_score(y_test, prediction))
 
 
 # Задача 5
