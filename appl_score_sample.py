@@ -62,7 +62,7 @@ model.fit(x_train, y_train)
 
 prediction_r = model.predict_proba(x_test)[:,1]
 
-print(roc_auc_score(y_test, prediction_r))
+print(f'SVC по ROC AUC: {roc_auc_score(y_test, prediction_r)}')
 
 
 fpr, tpr, threshold = roc_curve(y_test, prediction_r)
