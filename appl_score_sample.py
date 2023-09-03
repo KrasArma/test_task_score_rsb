@@ -10,6 +10,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.utils import shuffle
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVC
+import seaborn as sb
 
 warnings.filterwarnings('ignore')
 
@@ -19,6 +20,18 @@ warnings.filterwarnings('ignore')
 df = pd.read_csv('appl_score_sample.csv', sep=';')
 print(df.head())
 print(df.shape)
+
+
+corr = x.corr()
+sb.heatmap(corr, cmap="Blues", annot=True)
+plt.show();
+print('Два наиболее зависимых признака - DCI и PROFIT_FAMILY')
+
+corr_matrix = df.corr()
+corr = df.corr()
+sb.heatmap(corr, cmap="Blues", annot=True)
+plt.show();
+print('EDUCATION имеет наибольшую по модулю корреляцию с таргетом')
 
 print(f'Классы сбаллансированы, можно использовать метрику класса accuarcy: {y.value_counts()}')
 
