@@ -22,15 +22,12 @@ print(df.head())
 print(df.shape)
 
 
-corr = x.corr()
-sb.heatmap(corr, cmap="Blues", annot=True)
-plt.show();
-print('Два наиболее зависимых признака - DCI и PROFIT_FAMILY')
-
 corr_matrix = df.corr()
 corr = df.corr()
 sb.heatmap(corr, cmap="Blues", annot=True)
 plt.show();
+
+print('Два наиболее зависимых признака - DCI и PROFIT_FAMILY')
 print('EDUCATION имеет наибольшую по модулю корреляцию с таргетом')
 
 print(f'Классы сбаллансированы, можно использовать метрику класса accuarcy: {y.value_counts()}')
