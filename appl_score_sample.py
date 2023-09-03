@@ -4,9 +4,12 @@ import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import  accuracy_score
+from sklearn.metrics import  accuracy_score, roc_auc_score, roc_curve, auc
 import matplotlib.pyplot as plt
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.utils import shuffle
+from sklearn.preprocessing import StandardScaler
+from sklearn.svm import SVC
 
 warnings.filterwarnings('ignore')
 
@@ -16,6 +19,8 @@ warnings.filterwarnings('ignore')
 df = pd.read_csv('appl_score_sample.csv', sep=';')
 print(df.head())
 print(df.shape)
+
+print(f'Классы сбаллансированы, можно использовать метрику класса accuarcy: {y.value_counts()}')
 
 x = df.drop('Target', axis=1)
 y = df['Target']
@@ -44,6 +49,39 @@ for i in range(1, 10, 2):
 print('''На предоставленных в задании данных линейная модель работает более качественно, чем KNN.
 Возжно, проблема в недостаточном объеме обучающей выборки. 
 Кроме того, точность предсказания KNN возрастает при уменьшении k.''')
+
+
+scaler = StandardScaler()
+scaler.fit(x_train)
+
+x_train = pd.DataFrame(scaler.transform(x_train), columns=x.columns)
+x_test = pd.DataFrame(scaler.transform(x_test), columns=x.columns)
+
+model = SVC(kernel='linear', probability=True)
+model.fit(x_train, y_train)
+
+prediction_r = model.predict_proba(x_test)[:,1]
+
+print(roc_auc_score(y_test, prediction_r))
+
+
+fpr, tpr, threshold = roc_curve(y_test, prediction_r)
+roc_auc = auc(fpr, tpr)
+
+
+plt.title('Receiver operating characteristic')
+plt.plot(fpr, tpr, 'b', label = 'AUC = %0.2f' % roc_auc)
+
+plt.legend(loc='lower right')
+plt.plot([0,1], [0,1], 'r--')
+
+plt.xlim([0,1])
+plt.ylim([0,1])
+
+plt.ylabel('True positive rate')
+plt.xlabel('False positive rate')
+
+plt.show()
 
 
 # Задача 5
