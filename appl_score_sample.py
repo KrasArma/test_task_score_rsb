@@ -34,7 +34,7 @@ print('EDUCATION имеет наибольшую по модулю коррел�
 
 print(f'Классы сбаллансированы, можно использовать метрику класса accuarcy: {y.value_counts()}')
 
-x = df.drop('Target', axis=1)
+x = df.drop(['Target','CLIENT_ID'], axis=1)
 y = df['Target']
 
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.25, random_state=123)
@@ -49,7 +49,7 @@ print(f'LogisticRegression: {accuracy_score(y_test, prediction)}')
 print(lr.coef_, lr.intercept_)
 
 
-for i in range(1, 10, 2):
+for i in range(1, 501, 50):
   
     clf = KNeighborsClassifier(n_neighbors=i)
     clf.fit(x_train, y_train)
