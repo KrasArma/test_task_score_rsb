@@ -58,9 +58,6 @@ for i in range(1, 501, 50):
   
     print(f'KNN (k= {i}): {accuracy_score(y_test, prediction_n)}')
 
-print('''На предоставленных в задании данных линейная модель работает более качественно, чем KNN.
-Возжно, проблема в недостаточном объеме обучающей выборки.''')
-
 
 scaler = StandardScaler()
 scaler.fit(x_train)
