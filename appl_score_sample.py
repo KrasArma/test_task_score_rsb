@@ -25,7 +25,7 @@ print(df.describe())
 print('Нет атрибутов с пропущенными значениями. Обработка не требуется')
 
 corr_matrix = df.corr()
-corr = df.corr()
+corr = df.drop(['CLIENT_ID'], axis=1).corr()
 sb.heatmap(corr, cmap="Blues", annot=True)
 plt.show();
 
