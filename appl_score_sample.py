@@ -21,6 +21,8 @@ df = pd.read_csv('appl_score_sample.csv', sep=';')
 print(df.head())
 print(df.shape)
 
+print(df.describe())
+print('Нет атрибутов с пропущенными значениями. Обработка не требуется')
 
 corr_matrix = df.corr()
 corr = df.corr()
